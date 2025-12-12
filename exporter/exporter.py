@@ -22,17 +22,36 @@ if not MQTT_USERNAME or not MQTT_PASSWORD:
 
 # -----------------------------
 # Métricas Prometheus
+#  "meteo", "hydro", "unknown"
 # -----------------------------
 sensor_value = Gauge(
     "ttn_sensor_value",
     "Valor de variable sensor TTN (decoded_payload)",
-    ["app_id", "device_id", "field"]
+    ["app_id", "device_id", "device_type", "field"]
 )
 
+
+def classify_device_type(device_id: str) -> str:
+    """
+    Clasifica el tipo de dispositivo según su prefijo.
+    - wst506-xxx  -> meteo
+    - em500-udl-x -> hydro
+    """
+    if device_id.startswith("wst506"):
+        return "meteo"
+    if device_id.startswith("em500-udl"):
+        return "hydro"
+    return "unknown"
+
+
+# -----------------------------
+# Callbacks MQTT
+# -----------------------------
 def on_connect(client, userdata, flags, rc):
     print("Conectado a TTN MQTT, rc =", rc)
     client.subscribe(MQTT_TOPIC)
     print("Suscrito a tópico:", MQTT_TOPIC)
+
 
 def on_message(client, userdata, msg):
     try:
@@ -52,18 +71,27 @@ def on_message(client, userdata, msg):
         .get("device_id", "unknown_device")
     )
 
+    device_type = classify_device_type(device_id)
+
     uplink = payload.get("uplink_message", {})
     decoded = uplink.get("decoded_payload", {})
 
+
     if isinstance(decoded, dict):
         for field, value in decoded.items():
+
             try:
                 v = float(value)
             except (TypeError, ValueError):
                 continue
+
             sensor_value.labels(
-                app_id=app_id, device_id=device_id, field=field
+                app_id=app_id,
+                device_id=device_id,
+                device_type=device_type,
+                field=field
             ).set(v)
+
 
 def mqtt_loop():
     client = mqtt.Client()
@@ -76,7 +104,9 @@ def mqtt_loop():
     client.connect(MQTT_HOST, MQTT_PORT, 60)
     client.loop_forever()
 
+
 def main():
+
     start_http_server(METRICS_PORT)
     print(f"Servidor de métricas en :{METRICS_PORT}/metrics")
 
@@ -85,6 +115,7 @@ def main():
 
     while True:
         time.sleep(60)
+
 
 if __name__ == "__main__":
     main()
