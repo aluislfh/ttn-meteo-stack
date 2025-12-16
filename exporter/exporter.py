@@ -40,7 +40,7 @@ def classify_device_type(device_id: str) -> str:
     - wst506-xxx  -> meteo
     - em500-udl-x -> hydro
     """
-    if device_id.startswith("wst506"):
+    if device_id.startswith("wst506") or device_id.startswith("wts506"):
         return "meteo"
     if device_id.startswith("em500-udl"):
         return "hydro"
