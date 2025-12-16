@@ -1,0 +1,12 @@
+apiVersion: 1
+
+providers:
+  - name: "TTN Dashboards"
+    orgId: 1
+    folder: "TTN"
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards
+      foldersFromFilesStructure: false

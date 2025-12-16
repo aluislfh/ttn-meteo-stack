@@ -21,6 +21,7 @@ curl http://localhost:8000/metrics
 # Conectar Grafana y hacer el primer dashboard
 #-------------------------------------------------------------------------
 
+
 # Navegador → http://localhost:3000
 # Usuario: admin
 # Password: admin (es obligado cambiarla).

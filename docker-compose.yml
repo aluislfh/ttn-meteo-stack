@@ -36,7 +36,17 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      # Persistencia de Grafana (DB interna, usuarios, etc.)
+      - ./grafana_data:/var/lib/grafana
+
+      # Provisioning (datasource + provider de dashboards)
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+
+      # Dashboards JSON versionados en el repo
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
     restart: unless-stopped
+
     # Accesible en:
     #   http://localhost:3000
     #   http://IP_DE_TU_PC:3000
