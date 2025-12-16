@@ -5,6 +5,9 @@ import time
 import threading
 import paho.mqtt.client as mqtt
 from prometheus_client import Gauge, start_http_server
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 # -----------------------------
 # Config TTN / MQTT por entorno
@@ -48,9 +51,11 @@ def classify_device_type(device_id: str) -> str:
 # Callbacks MQTT
 # -----------------------------
 def on_connect(client, userdata, flags, rc):
-    print("Conectado a TTN MQTT, rc =", rc)
+    print("on_connect rc =", rc)
+    logging.info("Conectado a TTN MQTT, rc = %s", rc)
     client.subscribe(MQTT_TOPIC)
-    print("Suscrito a tópico:", MQTT_TOPIC)
+    logging.info("Suscrito a tópico: %s", MQTT_TOPIC)
+
 
 
 def on_message(client, userdata, msg):
