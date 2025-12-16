@@ -24,3 +24,6 @@ touch ~/ttn-meteo-stack/grafana/provisioning/dashboards/dashboards.yml
 
 touch ~/ttn-meteo-stack/grafana/dashboards/meteo.json
 touch ~/ttn-meteo-stack/grafana/dashboards/hydro.json
+
+
+sudo chown -R 472:472 grafana_data
