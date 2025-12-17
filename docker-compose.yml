@@ -46,6 +46,10 @@ services:
 
       # Dashboards JSON versionados en el repo
       - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+      # Static image for dashboard header
+      - ./grafana/assets:/usr/share/grafana/public/assets
+
     restart: unless-stopped
 
     # Accesible en:
