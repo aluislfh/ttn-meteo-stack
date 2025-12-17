@@ -48,11 +48,13 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "avg_over_time(ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_speed\"}[5m])"
+          "expr": "avg_over_time(ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_speed\"}[5m])",
+          "legendFormat": "speed"
         },
         {
           "refId": "B",
-          "expr": "avg_over_time(ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_direction\"}[5m])"
+          "expr": "avg_over_time(ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_direction\"}[5m])",
+          "legendFormat": "dir"
         }
       ],
       "options": {
