@@ -23,7 +23,10 @@
       "type": "text",
       "title": "Header",
       "gridPos": { "h": 9, "w": 6, "x": 0, "y": 0 },
-      "options": { "mode": "html", "content": "<div style=\"width:100%;height:100%;display:flex;align-items:center;justify-content:center;\"><img src=\"/public/assets/header.png\" style=\"max-width:100%;max-height:100%;object-fit:contain;\"/></div>" },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"width:100%;height:100%;display:flex;align-items:center;justify-content:center;\"><img src=\"/public/assets/header.png\" style=\"max-width:100%;max-height:100%;object-fit:contain;\"/></div>"
+      },
       "transparent": true
     },
     {
@@ -33,7 +36,7 @@
       "gridPos": { "h": 9, "w": 6, "x": 6, "y": 0 },
       "options": {
         "mode": "html",
-        "content": "<iframe width=\"100%\" height=\"100%\" frameborder=\"0\" style=\"border:0\" referrerpolicy=\"no-referrer-when-downgrade\" src=\"https://maps.google.com/maps?q=9.203236133712943,-79.23472686073228&z=16&t=k&output=embed\"></iframe>"
+        "content": "<iframe width=\"100%\" height=\"100%\" frameborder=\"0\" style=\"border:0\" referrerpolicy=\"no-referrer-when-downgrade\" src=\"https://www.google.com/maps?q=9.203236133712943,-79.23472686073228&z=16&t=k&output=embed\"></iframe>"
       }
     },
     {
@@ -45,11 +48,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_speed\"}"
+          "expr": "avg_over_time(ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_speed\"}[5m])"
         },
         {
           "refId": "B",
-          "expr": "ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_direction\"}"
+          "expr": "avg_over_time(ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_direction\"}[5m])"
         }
       ],
       "options": {
@@ -147,31 +150,16 @@
         "overrides": []
       }
     },
-
     {
       "id": 7,
-      "type": "stat",
-      "title": "Hora (Prometheus time())",
+      "type": "text",
+      "title": "Fecha y hora",
       "gridPos": { "h": 6, "w": 6, "x": 0, "y": 9 },
-      "datasource": { "type": "prometheus", "uid": "PROMETHEUS" },
-      "targets": [{ "refId": "A", "expr": "time()" }],
       "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "justifyMode": "center",
-        "orientation": "horizontal",
-        "textMode": "value"
+        "mode": "markdown",
+        "content": "## ${__to:date:YYYY-MM-DD}\n\n### ${__to:date:HH:mm:ss}"
       },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "dateTimeAsIso",
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
-        },
-        "overrides": []
-      }
+      "transparent": true
     },
     {
       "id": 8,
@@ -240,7 +228,7 @@
         "graphMode": "none",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "justifyMode": "center",
-        "orientation": "horizontal",
+        "orientation": "vertical",
         "textMode": "value"
       },
       "fieldConfig": { "defaults": { "unit": "pressurehpa" }, "overrides": [] }
@@ -259,12 +247,11 @@
         "graphMode": "area",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "justifyMode": "center",
-        "orientation": "horizontal",
+        "orientation": "vertical",
         "textMode": "value"
       },
       "fieldConfig": { "defaults": { "unit": "celsius" }, "overrides": [] }
     },
-
     {
       "id": 12,
       "type": "timeseries",
@@ -324,6 +311,5 @@
   "timezone": "browser",
   "title": "TTN - Vista Integrada",
   "uid": "ttn-integrated",
-  "version": 1
+  "version": 2
 }
-
