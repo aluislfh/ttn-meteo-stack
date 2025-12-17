@@ -37,6 +37,8 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_INSTALL_PLUGINS=operato-windrose-panel
+      - GF_PANELS_DISABLE_SANITIZE_HTML=true
+      - GF_SECURITY_CONTENT_SECURITY_POLICY=false      
     volumes:
       # Persistencia de Grafana (DB interna, usuarios, etc.)
       - ./grafana_data:/var/lib/grafana
