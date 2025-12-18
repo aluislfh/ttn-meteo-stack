@@ -48,20 +48,29 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "avg_over_time(ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_speed\"}[5m])",
-          "legendFormat": "speed"
+          "expr": "ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_speed\"}",
+          "legendFormat": "wind_speed",
+          "instant": false,
+          "range": true
         },
         {
           "refId": "B",
-          "expr": "avg_over_time(ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_direction\"}[5m])",
-          "legendFormat": "dir"
+          "expr": "ttn_sensor_value{device_id=\"wts506-001\",field=\"wind_direction\"}",
+          "legendFormat": "wind_direction",
+          "instant": false,
+          "range": true
+        }
+      ],
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "mode": "outer",
+            "byField": "Time"
+          }
         }
       ],
       "options": {
-        "speedRefId": "A",
-        "directionRefId": "B",
-        "speedUnit": "m/s",
-        "directionUnit": "deg",
         "legend": true
       }
     },
