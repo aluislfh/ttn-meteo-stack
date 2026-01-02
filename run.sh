@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#-------------------------------------------------------------------------
+# Excecute Prometheus and Grafana con Docker Compose
+#-------------------------------------------------------------------------
+
 # Build and run the Docker Compose services
 sudo docker-compose build
 sudo docker-compose up -d
@@ -18,13 +22,12 @@ curl http://localhost:8000/metrics
 # consultar: ttn_sensor_value
 
 #-------------------------------------------------------------------------
-# Conectar Grafana y hacer el primer dashboard
+# Excecute Grafana and make dashboards
 #-------------------------------------------------------------------------
-
 
 # Navegador → http://localhost:3000
 # Usuario: admin
-# Password: admin (es obligado cambiarla).
+# Password: admin (recordar cambiarla).
 
 # Añadir Data Source:
 
@@ -36,11 +39,13 @@ curl http://localhost:8000/metrics
 
 # Crear Dashboard → Add panel → Query:
 
-# ttn_sensor_value{field="temperature"}
 
-# En “Legend” pon:
+#-------------------------------------------------------------------------
+# Ejecutar airflow
+#-------------------------------------------------------------------------
 
-# {{device_id}}
+cd ~/ttn-meteo-stack/airflow
 
-# Se mostrarán dos curvas: wst506-001 y wst506-002.
-# Luego repetir para humidity, pressure, wind_speed, rainfall_total, etc.
+sudo docker compose up airflow-init
+sudo docker compose up -d
+sudo docker compose ps
