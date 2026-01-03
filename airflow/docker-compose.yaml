@@ -54,13 +54,13 @@ x-airflow-common:
   # build: . ## Esta línea usa el Dockerfile en el mismo directorio
   environment:
     &airflow-common-env
-    AIRFLOW_SMTP_SMTP_HOST: smtp.gmail.com
-    AIRFLOW_SMTP_SMTP_STARTTLS: 'true'
-    AIRFLOW_SMTP_SMTP_SSL: 'false'
-    AIRFLOW_SMTP_SMTP_USER: airflow@gmail.com
-    AIRFLOW_SMTP_SMTP_PORT: 587
-    AIRFLOW_SMTP_SMTP_PASSWORD: fzzt aoxh pvuh dtii
-    AIRFLOW_SMTP_SMTP_MAIL_FROM: airflow@gmail.com
+    AIRFLOW_SMTP_SMTP_HOST: ${AIRFLOW_SMTP_SMTP_HOST}
+    AIRFLOW_SMTP_SMTP_STARTTLS: ${AIRFLOW_SMTP_SMTP_STARTTLS:-true}
+    AIRFLOW_SMTP_SMTP_SSL: ${AIRFLOW_SMTP_SMTP_SSL:-false}
+    AIRFLOW_SMTP_SMTP_USER: ${AIRFLOW_SMTP_SMTP_USER}
+    AIRFLOW_SMTP_SMTP_PORT: ${AIRFLOW_SMTP_SMTP_PORT:-587}
+    AIRFLOW_SMTP_SMTP_PASSWORD: ${AIRFLOW_SMTP_SMTP_PASSWORD}
+    AIRFLOW_SMTP_SMTP_MAIL_FROM: ${AIRFLOW_SMTP_SMTP_MAIL_FROM}
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
